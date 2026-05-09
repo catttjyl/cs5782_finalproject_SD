@@ -6,13 +6,13 @@
 
 ## Introduction
 
-This repository contains a replication study of [Huang et al., "Deep Networks with Stochastic Depth" (arXiv:1603.09382, 2016)](https://arxiv.org/abs/1603.09382). The paper proposes randomly dropping entire residual blocks during training and bypassing them with identity connections, resolving the tension between training efficiency and test-time expressiveness in very deep ResNets.
+This repository contains our re-implementation of **Deep Networks with Stochastic Depth** by [Huang et al., "Deep Networks with Stochastic Depth" (arXiv:1603.09382, 2016)](https://arxiv.org/abs/1603.09382). The paper proposes randomly dropping entire residual blocks during training while using the full-depth ResNet at test time, improving both training efficiency and generalization. Our project reproduces the main CIFAR-10 result using a 110-layer ResNet and further analyzes why stochastic depth works through gradient behavior, feature representations, and label-noise robustness.
 
 ---
 
 ## Chosen Result
 
-We reproduce **Table 1** of the original paper: a 110-layer ResNet trained with stochastic depth on CIFAR-10 achieves ~5.25% test error vs. ~6.41% for constant depth, with ~25% faster training. This result is the paper's central empirical claim, directly validating SD as both a regularizer and a training accelerator.
+We reproduce the paper’s central CIFAR-10 result: stochastic depth improves the test error of ResNet-110 compared with a constant-depth baseline while reducing wall-clock training time. The original paper reports approximately **5.25% test error** for stochastic depth compared with **6.41%** for constant depth, along with around **25% training-time speedup**. This result was chosen because it directly supports the paper’s main claim that stochastic depth acts as both a regularizer and a training accelerator.
 
 ---
 
@@ -20,18 +20,20 @@ We reproduce **Table 1** of the original paper: a 110-layer ResNet trained with 
 
 ```
 ├── code/         # Re-implementation code and training scripts
-├── data/         # Dataset instructions (CIFAR-10)
-├── results/      # Generated figures, tables, and logs
+├── data/         # Dataset instructions or CIFAR-10 download notes
+├── results/      # Generated figures, tables, logs, and analysis outputs
 ├── poster/       # Final poster PDF
 ├── report/       # Final 2-page report PDF
-└── README.md
+├── README.md     # Project overview and reproduction instructions
+├── LICENSE       # Project license
+└── .gitignore    # Ignored files and folders
 ```
 
 ---
 
 ## Re-implementation Details
 
-- **Model:** 110-layer ResNet (3 × 18 blocks, filters: 16 / 32 / 64), PyTorch
+- **Model:** 110-layer ResNet (3 × 18 blocks, filters: 16 / 32 / 64)
 - **Dataset:** CIFAR-10 (45k train / 5k val / 10k test)
 - **Training:** SGD, momentum 0.9, weight decay 1e-4, lr=0.1 decayed 10× at epochs 250 and 375, 500 epochs total
 - **Survival probabilities:** linear decay, pL = 0.5
@@ -44,8 +46,8 @@ We reproduce **Table 1** of the original paper: a 110-layer ResNet trained with 
 
 ```bash
 # 1. Clone the repo
-git clone https://github.com/catttjyl/cs5482_finalproject_SD
-cd cs5482_finalproject_SD
+git clone https://github.com/catttjyl/cs5782_finalproject_SD
+cd cs5782_finalproject_SD
 
 # 2. Install dependencies
 pip install torch torchvision matplotlib scikit-learn
@@ -63,22 +65,33 @@ pip install torch torchvision matplotlib scikit-learn
 | Constant Depth | 6.13% | 2h 51m |
 | Stochastic Depth | 5.60% | 2h 28m (−13.2%) |
 
+<p>
+  <img src="results/fig3_left.png" alt="Test Error and Training Loss" width="550">
+</p>
+
+<p>
+  Figure 1. Test error and training loss on CIFAR-10.
+</p>
+
 Beyond accuracy, stochastic depth maintains stronger gradient flow in early layers, learns more generalizable feature representations (higher k-NN accuracy despite looser clusters), and is significantly more robust to label noise.
 
 ---
 
 ## Conclusion
 
-Stochastic depth is an effective and simple technique that improves accuracy, reduces training time, alleviates vanishing gradients, and resists overfitting. The replication confirms the paper's main claims, with the speedup gap attributable to modern GPU efficiency.
+Our re-implementation confirms that stochastic depth is a simple and effective method for training very deep residual networks. It improves generalization, reduces training time, alleviates vanishing gradients, and increases robustness under label noise.
+
+Future work could include running multiple random seeds, evaluating CIFAR-100 and SVHN, testing different survival probability schedules, and reproducing the deeper 1202-layer ResNet experiment.
 
 ---
 
 ## References
 
-- [1] G. Huang, Y. Sun, Z. Liu, D. Sedra, and K. Q. Weinberger, “Deep networks with stochastic depth,” arXiv:1603.09382, 2016.
+[1] G. Huang, Y. Sun, Z. Liu, D. Sedra, and K. Q. Weinberger, “Deep networks with stochastic depth,” arXiv:1603.09382, 2016.
 
 ---
 
 ## Acknowledgements
 
 This project was completed as part of **CS 5782: Intro to Deep Learning** at Cornell University, Spring 2026.
+y, Spring 2026.
