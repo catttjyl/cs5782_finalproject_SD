@@ -44,15 +44,14 @@ We reproduce the paper’s central CIFAR-10 result: stochastic depth improves th
 
 ## Reproduction Steps
 
+#### 1. Clone the repo
 ```bash
-# 1. Clone the repo
 git clone https://github.com/catttjyl/cs5782_finalproject_SD
 cd cs5782_finalproject_SD
-
-# 2. Install dependencies
-pip install torch torchvision matplotlib scikit-learn
-
 ```
+#### 2. Run the Jupiter notebooks!
+Open `code/Stochastic_depth_reproduction_with_experiments_final.ipynb`. All required dependencies are installed automatically in the first few cells of the notebook, so no manual setup is needed.
+You can run the notebook locally if your machine has a CUDA-compatible GPU. Alternatively, if you have access to Colab Pro, we recommend running it with Google Colab, as the full training pipeline is resource-intensive and benefits from higher-tier GPU allocation.
 
 **Compute requirement:** A single A100 GPU; ~2.5 hours per run.
 
@@ -67,10 +66,6 @@ pip install torch torchvision matplotlib scikit-learn
 
 <p>
   <img src="results/fig3_left.png" alt="Test Error and Training Loss" width="550">
-</p>
-
-<p>
-  Figure 1. Test error and training loss on CIFAR-10.
 </p>
 
 Our reproduction supports the paper’s central claim: stochastic depth improves test performance and reduces training time compared with constant depth. Beyond accuracy, stochastic depth maintains stronger gradient flow in early layers, learns more generalizable feature representations (higher k-NN accuracy despite looser clusters), and is significantly more robust to label noise.
@@ -94,4 +89,3 @@ Future work could include running multiple random seeds, evaluating CIFAR-100 an
 ## Acknowledgements
 
 This project was completed as part of **CS 5782: Intro to Deep Learning** at Cornell University, Spring 2026.
-y, Spring 2026.
