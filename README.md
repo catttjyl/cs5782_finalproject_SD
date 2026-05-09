@@ -73,7 +73,7 @@ pip install torch torchvision matplotlib scikit-learn
   Figure 1. Test error and training loss on CIFAR-10.
 </p>
 
-Beyond accuracy, stochastic depth maintains stronger gradient flow in early layers, learns more generalizable feature representations (higher k-NN accuracy despite looser clusters), and is significantly more robust to label noise.
+Our reproduction supports the paper’s central claim: stochastic depth improves test performance and reduces training time compared with constant depth. Beyond accuracy, stochastic depth maintains stronger gradient flow in early layers, learns more generalizable feature representations (higher k-NN accuracy despite looser clusters), and is significantly more robust to label noise.
 
 ---
 
